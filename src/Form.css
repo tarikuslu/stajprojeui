@@ -1,0 +1,5 @@
+.zoomed {
+  zoom: 77%;
+  -moz-transform: scale(0.7);
+  -moz-transform-origin: 0 0;
+}
