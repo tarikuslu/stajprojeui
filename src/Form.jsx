@@ -54,6 +54,12 @@ export default function Form() {
     neighbourhoodSocialInputIsEnabled,
     setNeighbourhoodSocialInputIsEnabled,
   ] = useState(false);
+
+  const [
+    neighbourhoodSocialHelpInputIsEnabled,
+    setNeighbourhoodSocialHelpInputIsEnabled,
+  ] = useState(false);
+
   const [headman, setHeadman] = useState({
     muhtar_adsoyad: "",
     muhtar_cep: 0,
@@ -361,6 +367,7 @@ export default function Form() {
   }
 
   function updateNeighbourhoodFields(type) {
+    console.log("NUFUS:", formik.values.nufus);
     if (type == "genel") {
       if (
         formik.errors.ilceye_uzaklik ||
@@ -759,7 +766,7 @@ export default function Form() {
                 ))}
               </select>
             </div>
-            <div className="flex justify-center gap-8 mt-8">
+            <div className="flex max-lg:flex-col max-lg:items-center justify-center gap-8 mt-8">
               <div className="form-control w-full max-w-xs">
                 <label className="label">
                   <span className="label-text font-bold">Muhtar Adı</span>
@@ -804,7 +811,7 @@ export default function Form() {
                   />
                 </div>
               </div>
-              <div className="self-end flex gap-3">
+              <div className="lg:self-end flex gap-3">
                 <button
                   onClick={() =>
                     setHeadmanInputsIsEnabled(!headmanInputsIsEnabled)
@@ -822,21 +829,21 @@ export default function Form() {
                 )}
               </div>
             </div>
-            <div className="flex flex-col w-full  lg:flex-row mt-12">
-              <div className=" flex-grow flex flex-col gap-6  items-center">
+            <div className="flex flex-col  w-full  lg:flex-row mt-12">
+              <div className="lg:w-1/3 flex flex-col gap-6  items-center">
                 <div className="w-full flex justify-between p-2 bg-orange-500">
                   <h1 className="text-center py-2 font-bold text-lg">
                     Mahalle Bilgileri
                   </h1>
 
-                  <span className="flex gap-2">
+                  <span className="flex gap-2 max-sm:flex-col items-center">
                     <button
                       onClick={() =>
                         setNeighbourhoodInputIsEnabled(
                           !neighbourhoodInputIsEnabled
                         )
                       }
-                      className="btn btn-warning"
+                      className="btn btn-sm btn-warning"
                     >
                       {neighbourhoodInputIsEnabled
                         ? "Düzenleme kapa"
@@ -845,21 +852,21 @@ export default function Form() {
                     {neighbourhoodInputIsEnabled && (
                       <button
                         onClick={() => updateNeighbourhoodFields("genel")}
-                        className="btn btn-info"
+                        className="btn btn-sm btn-info"
                       >
                         Kaydet
                       </button>
                     )}
                   </span>
                 </div>
-                <div className="flex items-center w-2/3 justify-between ">
+                <div className="flex items-center w-full justify-between ">
                   <label className="label">
                     <span className="label-text">İlçeye Uzaklık</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="ilceye_uzaklik"
                     value={formik.values.ilceye_uzaklik}
                     onChange={formik.handleChange}
@@ -871,14 +878,15 @@ export default function Form() {
                     {formik.errors.ilceye_uzaklik}
                   </p>
                 )}
-                <div className="flex items-center w-2/3 justify-between">
+
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Yüzölçümü</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="yuzolcumu"
                     value={formik.values.yuzolcumu}
                     onChange={formik.handleChange}
@@ -888,33 +896,39 @@ export default function Form() {
                 {formik.errors.yuzolcumu && (
                   <p className="mt-0 text-red-500">{formik.errors.yuzolcumu}</p>
                 )}
-                <div className="flex items-center w-2/3 justify-between ">
+
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
-                    <span className="label-text">İmar durumu</span>
+                    <span className="label-text">İmar Durumu</span>
                   </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
-                    name="imar_durumu"
+                  <select
                     value={formik.values.imar_durumu}
                     onChange={formik.handleChange}
+                    className="select select-xs w-full max-w-xs"
                     disabled={!neighbourhoodInputIsEnabled}
-                  />
+                    name="imar_durumu"
+                  >
+                    <option disabled selected>
+                      İmar Durumu
+                    </option>
+                    <option value={1}>Var</option>
+                    <option value={0}>Yok</option>
+                  </select>
                 </div>
                 {formik.errors.imar_durumu && (
                   <p className="mt-0 text-red-500">
                     {formik.errors.imar_durumu}
                   </p>
                 )}
-                <div className="flex items-center w-2/3 justify-between">
+
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Hane sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="hane_sayisi"
                     value={formik.values.hane_sayisi}
                     onChange={formik.handleChange}
@@ -926,14 +940,14 @@ export default function Form() {
                     {formik.errors.hane_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-2/3 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">İşyeri/Esnaf Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="esnaf_sayisi"
                     value={formik.values.esnaf_sayisi}
                     onChange={formik.handleChange}
@@ -945,14 +959,14 @@ export default function Form() {
                     {formik.errors.esnaf_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-2/3 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Nüfusu -2020 yılı-</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="nufus"
                     value={formik.values.nufus}
                     onChange={formik.handleChange}
@@ -963,14 +977,14 @@ export default function Form() {
                   <p className="mt-0 text-red-500">{formik.errors.nufus}</p>
                 )}
 
-                <div className="flex items-center w-2/3 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Kadın Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="kadin_sayisi"
                     value={formik.values.kadin_sayisi}
                     onChange={formik.handleChange}
@@ -982,14 +996,14 @@ export default function Form() {
                     {formik.errors.kadin_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-2/3 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Erkek Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="erkek_sayisi"
                     value={formik.values.erkek_sayisi}
                     onChange={formik.handleChange}
@@ -1001,14 +1015,14 @@ export default function Form() {
                     {formik.errors.erkek_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-2/3 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Çöp Konteynırı Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-sm input-bordered w-full max-w-xs"
                     name="cop_kutusu_sayisi"
                     value={formik.values.cop_kutusu_sayisi}
                     onChange={formik.handleChange}
@@ -1022,19 +1036,19 @@ export default function Form() {
                 )}
               </div>
               <div className="divider lg:divider-horizontal"></div>
-              <div className="flex-grow flex flex-col gap-6  items-center">
-                <div className="w-full flex justify-between items-center p-5 bg-orange-500">
+              <div className="lg:w-1/3 flex flex-col gap-6  items-center">
+                <div className="w-full flex justify-between items-center p-2 bg-orange-500">
                   <h1 className="text-center py-2 font-bold text-sm">
                     Mahallede bulunan eğitim alanları ve sosyal alan
                   </h1>
-                  <span className="flex gap-4">
+                  <span className="flex flex-col gap-3 ml-2">
                     <button
                       onClick={() =>
                         setNeighbourhoodSocialInputIsEnabled(
                           !neighbourhoodSocialInputIsEnabled
                         )
                       }
-                      className="btn btn-warning"
+                      className="btn btn-sm btn-warning"
                     >
                       {neighbourhoodSocialInputIsEnabled
                         ? "Düzenleme kapa"
@@ -1043,21 +1057,21 @@ export default function Form() {
                     {neighbourhoodSocialInputIsEnabled && (
                       <button
                         onClick={() => updateNeighbourhoodFields("egitim")}
-                        className="btn btn-info"
+                        className="btn btn-sm btn-info"
                       >
                         Kaydet
                       </button>
                     )}
                   </span>
                 </div>
-                <div className="flex items-center w-1/2 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Okul Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-md input-bordered w-full max-w-xs"
                     name="okul_sayisi"
                     value={formik.values.okul_sayisi}
                     onChange={formik.handleChange}
@@ -1069,14 +1083,14 @@ export default function Form() {
                     {formik.errors.okul_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-1/2 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Öğrenci Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-md input-bordered w-full max-w-xs"
                     name="ogrenci_sayisi"
                     value={formik.values.ogrenci_sayisi}
                     onChange={formik.handleChange}
@@ -1088,14 +1102,14 @@ export default function Form() {
                     {formik.errors.ogrenci_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-1/2 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Cami Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-md input-bordered w-full max-w-xs"
                     name="cami_sayisi"
                     value={formik.values.cami_sayisi}
                     onChange={formik.handleChange}
@@ -1107,14 +1121,14 @@ export default function Form() {
                     {formik.errors.cami_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-1/2 gap-4">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Sağlık Ocağı</span>
                   </label>
                   <select
                     value={formik.values.saglik_ocagi}
                     onChange={formik.handleChange}
-                    className="select w-full max-w-xs"
+                    className="select select-md w-full max-w-xs"
                     disabled={!neighbourhoodSocialInputIsEnabled}
                     name="saglik_ocagi"
                   >
@@ -1130,14 +1144,14 @@ export default function Form() {
                     {formik.errors.saglik_ocagi}
                   </p>
                 )}
-                <div className="flex items-center w-1/2 justify-between">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Park Sayısı</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-md input-bordered w-full max-w-xs"
                     name="park_sayisi"
                     value={formik.values.park_sayisi}
                     onChange={formik.handleChange}
@@ -1149,14 +1163,14 @@ export default function Form() {
                     {formik.errors.park_sayisi}
                   </p>
                 )}
-                <div className="flex items-center w-1/2 gap-4">
+                <div className="flex items-center w-full justify-between">
                   <label className="label">
                     <span className="label-text">Köy Konağı</span>
                   </label>
                   <select
                     value={formik.values.koy_konagi}
                     onChange={formik.handleChange}
-                    className="select w-full max-w-xs"
+                    className="select select-md w-full max-w-xs"
                     name="koy_konagi"
                     disabled={!neighbourhoodSocialInputIsEnabled}
                   >
@@ -1172,209 +1186,208 @@ export default function Form() {
                     {formik.errors.koy_konagi}
                   </p>
                 )}
-                <div className="w-full flex flex-col items-center gap-6 mt-10">
-                  <div className="w-full flex justify-between items-center p-5 bg-orange-500">
-                    <h1 className="text-center py-2 font-bold text-sm">
-                      Sosyal Yardım İşleri
-                    </h1>
-                    <span className="flex gap-4">
+              </div>
+              <div className="divider lg:divider-horizontal"></div>
+              <div className="lg:w-1/3 flex flex-col  gap-6 ">
+                <div className="w-full flex justify-between items-center p-2 bg-orange-500">
+                  <h1 className="text-center py-2 font-bold text-sm">
+                    Sosyal Yardım İşleri
+                  </h1>
+                  <span className="flex max-sm:flex-col gap-4">
+                    <button
+                      onClick={() =>
+                        setNeighbourhoodSocialHelpInputIsEnabled(
+                          !neighbourhoodSocialHelpInputIsEnabled
+                        )
+                      }
+                      className="btn btn-warning"
+                    >
+                      {neighbourhoodSocialHelpInputIsEnabled
+                        ? "Düzenleme kapa"
+                        : "Düzenleme"}
+                    </button>
+                    {neighbourhoodSocialHelpInputIsEnabled && (
                       <button
-                        onClick={() =>
-                          setNeighbourhoodSocialInputIsEnabled(
-                            !neighbourhoodSocialInputIsEnabled
-                          )
-                        }
-                        className="btn btn-warning"
+                        onClick={() => updateNeighbourhoodFields("sosyal")}
+                        className="btn btn-info"
                       >
-                        {neighbourhoodSocialInputIsEnabled
-                          ? "Düzenleme kapa"
-                          : "Düzenleme"}
+                        Kaydet
                       </button>
-                      {neighbourhoodSocialInputIsEnabled && (
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <label className="label">
+                    <span className="label-text">Yeşil Kartlı Kişi Sayısı</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Type here"
+                    className="input input-sm input-bordered w-full max-w-xs"
+                    name="yesilkartli_sayisi"
+                    value={formik.values.yesilkartli_sayisi}
+                    onChange={formik.handleChange}
+                    disabled={!neighbourhoodSocialHelpInputIsEnabled}
+                  />
+                </div>
+                {formik.errors.yesilkartli_sayisi && (
+                  <p className="mt-0 text-red-500">
+                    {formik.errors.yesilkartli_sayisi}
+                  </p>
+                )}
+                <div className="flex items-center  justify-between">
+                  <label className="label">
+                    <span className="label-text">
+                      Alanya Belediyesinden Yardım Alan Kişi Sayısı
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Type here"
+                    className="input input-sm input-bordered w-full max-w-xs"
+                    name="belediye_yardimi_alan_sayisi"
+                    value={formik.values.belediye_yardimi_alan_sayisi}
+                    onChange={formik.handleChange}
+                    disabled={!neighbourhoodSocialHelpInputIsEnabled}
+                  />
+                </div>
+                {formik.errors.belediye_yardimi_alan_sayisi && (
+                  <p className="mt-0 text-red-500">
+                    {formik.errors.belediye_yardimi_alan_sayisi}
+                  </p>
+                )}
+
+                <div className="flex flex-col w-full gap-3">
+                  <div className="w-full flex justify-between items-center p-2 mt-5 bg-orange-500">
+                    <h1 className="text-center py-2 font-bold text-sm">
+                      2023 Milletvekilliği Seçim Bilgileri
+                    </h1>
+                    <span className="flex flex-col gap-4">
+                      <button
+                        onClick={() => setMvInputIsEnabled(!mvInputIsEnabled)}
+                        className="btn btn-sm btn-warning"
+                      >
+                        {mvInputIsEnabled
+                          ? "Düzenleme modunu kapa"
+                          : "Düzenleme modunu aç"}
+                      </button>
+                      {mvInputIsEnabled && (
                         <button
-                          onClick={() => updateNeighbourhoodFields("sosyal")}
-                          className="btn btn-info"
+                          onClick={() => updateNeighbourhoodFields("mv2023")}
+                          className="btn btn-sm btn-info"
                         >
                           Kaydet
                         </button>
                       )}
                     </span>
                   </div>
-                  <div className="flex items-center w-1/2 justify-between">
+
+                  <div className="flex gap-2  justify-between mx-5">
                     <label className="label">
-                      <span className="label-text">
-                        Yeşil Kartlı Kişi Sayısı
-                      </span>
+                      <span className="label-text">MHP:</span>
                     </label>
                     <input
                       type="text"
                       placeholder="Type here"
-                      className="input input-bordered w-full max-w-xs"
-                      name="yesilkartli_sayisi"
-                      value={formik.values.yesilkartli_sayisi}
+                      className="input input-sm input-bordered w-full  max-w-xs"
+                      name="mhp2023mv_oysayisi"
+                      value={formik.values.mhp2023mv_oysayisi}
                       onChange={formik.handleChange}
-                      disabled={!neighbourhoodSocialInputIsEnabled}
+                      disabled={!mvInputIsEnabled}
                     />
                   </div>
-                  {formik.errors.yesilkartli_sayisi && (
+                  {formik.errors.mhp2023mv_oysayisi && (
                     <p className="mt-0 text-red-500">
-                      {formik.errors.yesilkartli_sayisi}
+                      {formik.errors.mhp2023mv_oysayisi}
                     </p>
                   )}
-                  <div className="flex items-center w-1/2 justify-between">
+                  <div className="flex gap-2  justify-between mx-5">
                     <label className="label">
-                      <span className="label-text">
-                        Alanya Belediyesinden Yardım Alan Kişi Sayısı
-                      </span>
+                      <span className="label-text">AK PARTİ:</span>
                     </label>
                     <input
                       type="text"
                       placeholder="Type here"
-                      className="input input-bordered w-full max-w-xs"
-                      name="belediye_yardimi_alan_sayisi"
-                      value={formik.values.belediye_yardimi_alan_sayisi}
+                      className="input input-sm input-bordered w-full max-w-xs"
+                      name="akp2023mv_oysayisi"
+                      value={formik.values.akp2023mv_oysayisi}
                       onChange={formik.handleChange}
-                      disabled={!neighbourhoodSocialInputIsEnabled}
+                      disabled={!mvInputIsEnabled}
                     />
                   </div>
-                  {formik.errors.belediye_yardimi_alan_sayisi && (
+                  {formik.errors.akp2023mv_oysayisi && (
                     <p className="mt-0 text-red-500">
-                      {formik.errors.belediye_yardimi_alan_sayisi}
+                      {formik.errors.akp2023mv_oysayisi}
+                    </p>
+                  )}
+                  <div className="flex gap-2  justify-between mx-5">
+                    <label className="label">
+                      <span className="label-text">İYİ PARTİ:</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-sm input-bordered w-full max-w-xs"
+                      name="iyi2023mv_oysayisi"
+                      value={formik.values.iyi2023mv_oysayisi}
+                      onChange={formik.handleChange}
+                      disabled={!mvInputIsEnabled}
+                    />
+                  </div>
+                  {formik.errors.iyi2023mv_oysayisi && (
+                    <p className="mt-0 text-red-500">
+                      {formik.errors.iyi2023mv_oysayisi}
+                    </p>
+                  )}
+
+                  <div className="flex gap-2  justify-between mx-5">
+                    <label className="label">
+                      <span className="label-text">CHP:</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-sm input-bordered w-full max-w-xs"
+                      name="chp2023mv_oysayisi"
+                      value={formik.values.chp2023mv_oysayisi}
+                      onChange={formik.handleChange}
+                      disabled={!mvInputIsEnabled}
+                    />
+                  </div>
+                  {formik.errors.chp2023mv_oysayisi && (
+                    <p className="mt-0 text-red-500">
+                      {formik.errors.chp2023mv_oysayisi}
+                    </p>
+                  )}
+                  <div className="flex gap-2  justify-between mx-5">
+                    <label className="label">
+                      <span className="label-text">HDP:</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-sm input-bordered w-full max-w-xs"
+                      name="hdp2023mv_oysayisi"
+                      value={formik.values.hdp2023mv_oysayisi}
+                      onChange={formik.handleChange}
+                      disabled={!mvInputIsEnabled}
+                    />
+                  </div>
+                  {formik.errors.hdp2023mv_oysayisi && (
+                    <p className="mt-0 text-red-500">
+                      {formik.errors.hdp2023mv_oysayisi}
                     </p>
                   )}
                 </div>
               </div>
             </div>
+
             <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
-                <h1 className="text-center py-2 font-bold text-sm">
-                  2023 Milletvekilliği Seçim Bilgileri
-                </h1>
-                <span className="flex gap-4">
-                  <button
-                    onClick={() => setMvInputIsEnabled(!mvInputIsEnabled)}
-                    className="btn btn-warning"
-                  >
-                    {mvInputIsEnabled
-                      ? "Düzenleme modunu kapa"
-                      : "Düzenleme modunu aç"}
-                  </button>
-                  {mvInputIsEnabled && (
-                    <button
-                      onClick={() => updateNeighbourhoodFields("mv2023")}
-                      className="btn btn-info"
-                    >
-                      Kaydet
-                    </button>
-                  )}
-                </span>
-              </div>
-              <div className="join w-full flex justify-center gap-4 items-center mt-8 mb-8">
-                <div className="flex gap-2 w-full max-w-xs join-item">
-                  <label className="label">
-                    <span className="label-text">MHP:</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
-                    name="mhp2023mv_oysayisi"
-                    value={formik.values.mhp2023mv_oysayisi}
-                    onChange={formik.handleChange}
-                    disabled={!mvInputIsEnabled}
-                  />
-                </div>
-                {formik.errors.mhp2023mv_oysayisi && (
-                  <p className="mt-0 text-red-500">
-                    {formik.errors.mhp2023mv_oysayisi}
-                  </p>
-                )}
-                <div className="flex gap-2 w-full max-w-xs join-item">
-                  <label className="label">
-                    <span className="label-text">AK PARTİ:</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
-                    name="akp2023mv_oysayisi"
-                    value={formik.values.akp2023mv_oysayisi}
-                    onChange={formik.handleChange}
-                    disabled={!mvInputIsEnabled}
-                  />
-                </div>
-                {formik.errors.akp2023mv_oysayisi && (
-                  <p className="mt-0 text-red-500">
-                    {formik.errors.akp2023mv_oysayisi}
-                  </p>
-                )}
-                <div className="flex gap-2 w-full max-w-xs join-item">
-                  <label className="label">
-                    <span className="label-text">İYİ PARTİ:</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
-                    name="iyi2023mv_oysayisi"
-                    value={formik.values.iyi2023mv_oysayisi}
-                    onChange={formik.handleChange}
-                    disabled={!mvInputIsEnabled}
-                  />
-                </div>
-                {formik.errors.iyi2023mv_oysayisi && (
-                  <p className="mt-0 text-red-500">
-                    {formik.errors.iyi2023mv_oysayisi}
-                  </p>
-                )}
-              </div>
-              <div className="join w-full flex justify-center gap-4 items-center">
-                <div className="flex gap-2 w-full max-w-xs join-item">
-                  <label className="label">
-                    <span className="label-text">CHP:</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
-                    name="chp2023mv_oysayisi"
-                    value={formik.values.chp2023mv_oysayisi}
-                    onChange={formik.handleChange}
-                    disabled={!mvInputIsEnabled}
-                  />
-                </div>
-                {formik.errors.chp2023mv_oysayisi && (
-                  <p className="mt-0 text-red-500">
-                    {formik.errors.chp2023mv_oysayisi}
-                  </p>
-                )}
-                <div className="flex gap-2 w-full max-w-xs join-item">
-                  <label className="label">
-                    <span className="label-text">HDP:</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    className="input input-bordered w-full max-w-xs"
-                    name="hdp2023mv_oysayisi"
-                    value={formik.values.hdp2023mv_oysayisi}
-                    onChange={formik.handleChange}
-                    disabled={!mvInputIsEnabled}
-                  />
-                </div>
-                {formik.errors.hdp2023mv_oysayisi && (
-                  <p className="mt-0 text-red-500">
-                    {formik.errors.hdp2023mv_oysayisi}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
+              <div className="w-full flex justify-between items-center p-2 mt-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   2023 Cumhurbaşkanlığı Seçim Bilgileri
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex gap-4 max-sm:flex-col">
                   <button
                     onClick={() => setCbInputIsEnabled(!cbInputIsEnabled)}
                     className="btn btn-warning"
@@ -1435,11 +1448,11 @@ export default function Form() {
               </div>
             </div>
             <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
+              <div className="w-full flex justify-between items-center p-2 mt-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   2019 Yerel Seçim Seçim Bilgileri
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex gap-4 max-sm:flex-col">
                   <button
                     onClick={() =>
                       setBelediye2019InputIsEnabled(!belediye2019InputIsEnabled)
@@ -1502,14 +1515,14 @@ export default function Form() {
               </div>
             </div>
             <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
+              <div className="w-full flex justify-between items-center p-2 mt-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   MAHALLE İLE İLGİLİ MÜDÜRLÜKLERİN NOTLARI
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex max-sm:flex-col max-sm:flex gap-4">
                   <button
                     onClick={addNewManagerNote}
-                    className="btn btn-success"
+                    className="btn   btn-success"
                   >
                     YENİ KAYIT EKLE
                   </button>
@@ -1592,11 +1605,11 @@ export default function Form() {
               )}
             </div>
             <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 mb-10 bg-orange-500">
+              <div className="w-full flex justify-between items-center p-2 mt-10 mb-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   MAHALLE HALKININ TALEP VE GÖRÜŞLERİ
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex max-sm:flex-col max-sm:flex gap-4">
                   <button
                     className="btn btn-success"
                     onClick={addNewPublicOpinion}
@@ -1682,12 +1695,12 @@ export default function Form() {
               )}
             </div>
 
-            <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
+            <div className="w-full">
+              <div className="w-full flex justify-between items-center p-2 mt-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   FEN İŞLERİ YATIRIMLARI
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex max-sm:flex-col max-sm:flex gap-4">
                   <button
                     onClick={() => addNewProject("fen")}
                     className="btn btn-success"
@@ -1728,12 +1741,12 @@ export default function Form() {
                       .map((fenProject) => {
                         return (
                           <>
-                            <tr>
+                            <tr className="">
                               <th>
-                                <span className="flex gap-2">
+                                <span className="flex flex-col gap-1">
                                   <button
                                     onClick={() => deleteProject(fenProject)}
-                                    className="btn btn-error"
+                                    className="btn btn-md btn-error"
                                   >
                                     SİL
                                   </button>
@@ -1743,7 +1756,7 @@ export default function Form() {
                                         onClick={() =>
                                           updateProject(fenProject, "fen")
                                         }
-                                        className="btn btn-warning"
+                                        className="btn btn-md btn-warning"
                                       >
                                         Güncelle
                                       </button>
@@ -1754,7 +1767,7 @@ export default function Form() {
                                         onClick={() =>
                                           insertProject(fenProject, "fen")
                                         }
-                                        className="btn btn-info"
+                                        className="btn btn-md btn-info"
                                       >
                                         Kaydet
                                       </button>
@@ -1766,7 +1779,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.proje_adi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1781,7 +1794,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.mevkii}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1797,7 +1810,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.yapim_yili}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1812,7 +1825,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.masraf}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1828,7 +1841,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.hedef_m2}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1844,7 +1857,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.gercek_m2}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1859,7 +1872,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.proje_detayi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1874,7 +1887,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.tamamlanma_yuzdesi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1889,7 +1902,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={fenProject.proje_durumu}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -1915,11 +1928,11 @@ export default function Form() {
               </div>
             </div>
             <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
+              <div className="w-full flex justify-between items-center p-2 mt-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   FEN İŞLERİ DEVAM EDEN YATIRIMLARI
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex max-sm:flex-col max-sm:flex gap-4">
                   <button
                     onClick={() => addNewProject("fen")}
                     className="btn btn-success"
@@ -1969,10 +1982,10 @@ export default function Form() {
                           <>
                             <tr>
                               <th>
-                                <span className="flex gap-2">
+                                <span className="flex flex-col gap-1">
                                   <button
                                     onClick={() => deleteProject(devamProje)}
-                                    className="btn btn-error"
+                                    className="btn btn-md btn-error"
                                   >
                                     SİL
                                   </button>
@@ -1982,7 +1995,7 @@ export default function Form() {
                                         onClick={() =>
                                           updateProject(devamProje, "fen")
                                         }
-                                        className="btn btn-warning"
+                                        className="btn btn-md btn-warning"
                                       >
                                         Güncelle
                                       </button>
@@ -1993,7 +2006,7 @@ export default function Form() {
                                         onClick={() =>
                                           insertProject(devamProje, "fen")
                                         }
-                                        className="btn btn-info"
+                                        className="btn btn-md btn-info"
                                       >
                                         Kaydet
                                       </button>
@@ -2005,7 +2018,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.proje_adi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2020,7 +2033,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.mevkii}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2035,7 +2048,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.yapim_yili}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2050,7 +2063,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.masraf}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2065,7 +2078,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.hedef_m2}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2080,7 +2093,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.gercek_m2}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2095,7 +2108,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.proje_detayi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2110,7 +2123,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.tamamlanma_yuzdesi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2125,7 +2138,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={devamProje.proje_durumu}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2152,11 +2165,11 @@ export default function Form() {
             </div>
 
             <div>
-              <div className="w-full flex justify-between items-center p-5 mt-10 bg-orange-500">
+              <div className="w-full flex justify-between items-center p-2 mt-10 bg-orange-500">
                 <h1 className="text-center py-2 font-bold text-sm">
                   PARK VE BAHÇELER TAMAMLANAN VE DEVAM EDEN YATIRIMLAR
                 </h1>
-                <span className="flex gap-4">
+                <span className="flex max-sm:flex-col max-sm:flex gap-4">
                   <button
                     onClick={() => addNewProject("parkbahce")}
                     className="btn btn-success"
@@ -2197,7 +2210,7 @@ export default function Form() {
                           <>
                             <tr>
                               <th>
-                                <span className="flex gap-2">
+                                <span className="flex flex-col gap-1">
                                   <button
                                     onClick={() => deleteProject(parkProje)}
                                     className="btn btn-error"
@@ -2233,7 +2246,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.proje_adi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2248,7 +2261,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.mevkii}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2263,7 +2276,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.proje_detayi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2278,7 +2291,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.yapim_yili}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2293,7 +2306,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.masraf}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2308,7 +2321,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.gercek_m2}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2323,7 +2336,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.tamamlanma_yuzdesi}
                                   onChange={() =>
                                     handleFenInputChange(
@@ -2338,7 +2351,7 @@ export default function Form() {
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  className="input"
+                                  className="input input-bordered input-xs"
                                   value={parkProje.proje_durumu}
                                   onChange={() =>
                                     handleFenInputChange(
